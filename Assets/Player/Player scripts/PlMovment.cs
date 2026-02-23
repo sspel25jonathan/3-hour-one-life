@@ -1,9 +1,10 @@
-using System.Numerics;
-using UnityEditor.Experimental.GraphView;
+
+using Unity.Netcode;
+
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-public class PlMovement : MonoBehaviour
+public class PlMovement : NetworkBehaviour
 {
     public float speed = 5f;
     public float jumpForce = 5f;
@@ -17,15 +18,15 @@ public class PlMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+         movement = new Vector3(Input.GetAxis("Horizontal"), 0 ,Input.GetAxis("Vertical")).normalized;
     }
 
     void FixedUpdate()
     {
-        moveCharatcter();
+       moveCharacter(movement);
     }
-    void moveCharatcter()
+        void moveCharacter(Vector3 direction)
     {
-        rb.linearVelocity = movement * speed;
+        rb.linearVelocity = direction * speed;
     }
 }

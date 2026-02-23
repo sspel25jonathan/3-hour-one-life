@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: joppe
   productName: 3h hours and one life
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -942,7 +942,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: f31f5d61-fc6d-4eae-ab1a-fd7897185b01
   framebufferDepthMemorylessMode: 0

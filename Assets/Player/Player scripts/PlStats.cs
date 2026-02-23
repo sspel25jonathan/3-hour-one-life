@@ -2,20 +2,21 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlStats : PlayerBase
+public class PlStats : MonoBehaviour
 {
 
     [Header("Player Info")]
     PlMovement PlMovement;
 
     [Header("Player Stats")]
-    int health;
+    int health = 30;
     int hunger;
     int thirst;
     int maxhealth = 30;
     int maxhunger = 30;
     int maxthirst = 30;
     int age = 0;
+    public bool rePopulate = false;
 
     [Header("Timers")]
     float yearTimer;
@@ -58,11 +59,13 @@ public class PlStats : PlayerBase
             maxhealth = 100;
             maxhunger = 100;
             maxthirst = 100;
-        } else if (age > 50)
+            rePopulate = true;
+        } else if (age > 60)
         {
             maxhunger = 70;
             maxthirst = 70;
             maxhealth = 70;
+            rePopulate = false;
         }
 
         
