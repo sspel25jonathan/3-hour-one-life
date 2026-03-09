@@ -7,14 +7,12 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(NetworkIdentity))]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerInput))]
 
 
 public class PlMovement : NetworkBehaviour
 {
-    public float speed = 5f;
-    public float jumpForce = 5f;
-    private Rigidbody rb;
-    private Vector3 movementDirection;
+
 
     [Header("Mesh to rotate")]
     public GameObject mesh;
@@ -22,27 +20,46 @@ public class PlMovement : NetworkBehaviour
     [Header("Camera")]
     public GameObject cam;
 
-    [SerializeField] 
-    private PlayerInputManager playerInputManager;
+    [SerializeField]
+    private InputActionReference m_moveAction;
+    public  Vector3 movementDirection{ get; private set; }
+    private Vector3 movmentInput;
     
+    [SerializeField]
+    private float m_smoothTime = 0.1f;
+
+
+    public float speed = 5f;
+    public float jumpForce = 5f;
+    private Rigidbody rb;
+
+
 
 
     public override void OnStartAuthority()
     {
         cam.SetActive(true);
+        GetComponent<PlayerInput>().enabled = true;
+
     }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         gameObject.AddComponent<NetworkIdentity>();
+        
 
     }
 
     void Update()
     {
-
         Camera();
+        movmentInput = m_moveAction.action.ReadValue<Vector3>();
+            movementDirection = new Vector3(movmentInput.x, 0, movmentInput.z) * speed;
+    }
 
+
+    public void PlayerMovement()
+    {
 
     }
 
@@ -51,7 +68,7 @@ public class PlMovement : NetworkBehaviour
         if (SceneManager.GetActiveScene().name == "Main")
         {
             cam.transform.position = transform.position + new Vector3(0, 5, -10);
-            
+
             float playerVerticalInput = Input.GetAxis("Vertical") * speed;
             float playerHorizontalInput = Input.GetAxis("Horizontal") * speed;
 
@@ -65,12 +82,6 @@ public class PlMovement : NetworkBehaviour
             Vector3 rightRelativeToCamera = camRight * playerHorizontalInput;
 
             movementDirection = forwardRelativeToCamera + rightRelativeToCamera;
-
-            rb.linearVelocity = new Vector3(
-                movementDirection.x,
-                rb.linearVelocity.y,
-                movementDirection.z
-            );
 
 
             // rotate the mesh to the direction of movement

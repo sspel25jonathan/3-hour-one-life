@@ -908,6 +908,8 @@ GameObject:
   - component: {fileID: 6523786073274149012}
   - component: {fileID: 4202284039717708557}
   - component: {fileID: 4277190136110103542}
+  - component: {fileID: 3212336205015611566}
+  - component: {fileID: 8764796368473771184}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1022,6 +1024,7 @@ MonoBehaviour:
   jumpForce: 5
   mesh: {fileID: 2713640906791396421}
   cam: {fileID: 6563575423141950252}
+  playerInputManager: {fileID: 0}
 --- !u!54 &6523786073274149012
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1083,6 +1086,80 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &3212336205015611566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2769525775744117462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 0
+  m_MaxPlayerCount: -1
+  m_AllowJoining: 1
+  m_JoinBehavior: 0
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 4d4d9b95-4123-4d84-a1c2-60b8e2af6e9a
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 2769525775744117462}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &8764796368473771184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2769525775744117462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: e27c7622fa917b049bb730be28a55fa3, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard
+  m_DefaultActionMap: Controll
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &2821666289319839997
 GameObject:
   m_ObjectHideFlags: 0
@@ -2219,6 +2296,8 @@ MonoBehaviour:
       Owner: {fileID: 8803432480586225598}
       Enabled: 1
       Input:
+        InputAction: {fileID: 0}
+        Gain: 1
         LegacyInput: Mouse X
         LegacyGain: 100
         CancelDeltaTime: 0
@@ -2230,6 +2309,8 @@ MonoBehaviour:
       Owner: {fileID: 8803432480586225598}
       Enabled: 1
       Input:
+        InputAction: {fileID: 0}
+        Gain: 1
         LegacyInput: Mouse Y
         LegacyGain: -100
         CancelDeltaTime: 0
@@ -2241,6 +2322,8 @@ MonoBehaviour:
       Owner: {fileID: 8803432480586225598}
       Enabled: 1
       Input:
+        InputAction: {fileID: 0}
+        Gain: 1
         LegacyInput: Mouse ScrollWheel
         LegacyGain: -100
         CancelDeltaTime: 0
@@ -2248,6 +2331,8 @@ MonoBehaviour:
       Driver:
         AccelTime: 0
         DecelTime: 0
+  PlayerIndex: -1
+  AutoEnableInputs: 1
 --- !u!1 &6590561463829426521
 GameObject:
   m_ObjectHideFlags: 0
