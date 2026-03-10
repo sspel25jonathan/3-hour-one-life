@@ -4,6 +4,7 @@ using Vector3 = UnityEngine.Vector3;
 using Mirror;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using Mirror.Examples.Basic;
 
 [RequireComponent(typeof(NetworkIdentity))]
 [RequireComponent(typeof(Rigidbody))]
@@ -22,9 +23,9 @@ public class PlMovement : NetworkBehaviour
 
     [SerializeField]
     private InputActionReference m_moveAction;
-    public  Vector3 movementDirection{ get; private set; }
+    public Vector3 movementDirection { get; private set; }
     private Vector3 movmentInput;
-    
+
     [SerializeField]
     private float m_smoothTime = 0.1f;
 
@@ -33,34 +34,36 @@ public class PlMovement : NetworkBehaviour
     public float jumpForce = 5f;
     private Rigidbody rb;
 
-
-
-
     public override void OnStartAuthority()
     {
         cam.SetActive(true);
         GetComponent<PlayerInput>().enabled = true;
+        GetComponent<PlayerInputManager>().enabled = true;
 
     }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         gameObject.AddComponent<NetworkIdentity>();
-        
 
     }
 
     void Update()
     {
         Camera();
-        movmentInput = m_moveAction.action.ReadValue<Vector3>();
-            movementDirection = new Vector3(movmentInput.x, 0, movmentInput.z) * speed;
+
+        PlayerMovement();
     }
 
 
     public void PlayerMovement()
     {
+        if (SceneManager.GetActiveScene().name == "Main")
+        {
+            movmentInput = m_moveAction.action.ReadValue<Vector3>();
+            movementDirection = new Vector3(movmentInput.x, 0, movmentInput.z) * speed;
 
+        }
     }
 
     public void Camera()
