@@ -1,19 +1,14 @@
-
 using UnityEngine;
-using Vector3 = UnityEngine.Vector3;
 using Mirror;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
-using Mirror.Examples.Basic;
 
-[RequireComponent(typeof(NetworkIdentity))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInput))]
-
-
 public class PlMovement : NetworkBehaviour
 {
-
+    private PlayerInput playerInput;
+    private InputAction moveAction;
+    private Rigidbody rb;
 
     [Header("Mesh to rotate")]
     public GameObject mesh;
@@ -21,81 +16,106 @@ public class PlMovement : NetworkBehaviour
     [Header("Camera")]
     public GameObject cam;
 
-    [SerializeField]
-    private InputActionReference m_moveAction;
-    public Vector3 movementDirection { get; private set; }
-    private Vector3 movmentInput;
-
-    [SerializeField]
-    private float m_smoothTime = 0.1f;
-
-
+    private Vector2 movementInput;
     public float speed = 5f;
-    public float jumpForce = 5f;
-    private Rigidbody rb;
 
+    [SyncVar] 
+    private Vector3 syncedVelocity;
+
+    public Vector3 movementDirection { get; private set; }
+
+    // Runs when the local player gains control
     public override void OnStartAuthority()
     {
+        base.OnStartAuthority();
+
         cam.SetActive(true);
-        GetComponent<PlayerInput>().enabled = true;
-        GetComponent<PlayerInputManager>().enabled = true;
 
-    }
-    void Start()
-    {
         rb = GetComponent<Rigidbody>();
-        gameObject.AddComponent<NetworkIdentity>();
+        rb.isKinematic = false;
+        
+    }
 
+    void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        moveAction = playerInput.actions["Move"];
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        Camera();
+        if (!isLocalPlayer) return;
 
-        PlayerMovement();
+        CameraFollow();
     }
 
-
-    public void PlayerMovement()
+    void FixedUpdate()
     {
-        if (SceneManager.GetActiveScene().name == "Main")
+        if (isLocalPlayer)
         {
-            movmentInput = m_moveAction.action.ReadValue<Vector3>();
-            movementDirection = new Vector3(movmentInput.x, 0, movmentInput.z) * speed;
+            ReadInput();
+            PlayerMovement();
 
+            // Sync velocity to server
+            CmdSendVelocity(rb.linearVelocity);
+        }
+        else
+        {
+            // Remote players use synced velocity
+            rb.linearVelocity = syncedVelocity;
         }
     }
 
-    public void Camera()
+    void ReadInput()
     {
-        if (SceneManager.GetActiveScene().name == "Main")
-        {
-            cam.transform.position = transform.position + new Vector3(0, 5, -10);
-
-            float playerVerticalInput = Input.GetAxis("Vertical") * speed;
-            float playerHorizontalInput = Input.GetAxis("Horizontal") * speed;
-
-            Vector3 camForward = cam.transform.forward;
-            Vector3 camRight = cam.transform.right;
-
-            camForward.y = 0;
-            camRight.y = 0;
-
-            Vector3 forwardRelativeToCamera = camForward * playerVerticalInput;
-            Vector3 rightRelativeToCamera = camRight * playerHorizontalInput;
-
-            movementDirection = forwardRelativeToCamera + rightRelativeToCamera;
-
-
-            // rotate the mesh to the direction of movement
-            if (movementDirection != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
-                mesh.transform.rotation = Quaternion.Slerp(mesh.transform.rotation, targetRotation, Time.deltaTime * 10f);
-            }
-        }
-
+        movementInput = moveAction.ReadValue<Vector2>();
     }
 
+    void PlayerMovement()
+    {
+        // Camera-relative movement
+        Vector3 camForward = cam.transform.forward;
+        Vector3 camRight = cam.transform.right;
+
+        camForward.y = 0;
+        camRight.y = 0;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        Vector3 forwardRelative = camForward * movementInput.y;
+        Vector3 rightRelative = camRight * movementInput.x;
+
+        movementDirection = (forwardRelative + rightRelative) * speed;
+
+        rb.linearVelocity = new Vector3(
+            movementDirection.x,
+            rb.linearVelocity.y,
+            movementDirection.z
+        );
+
+        // Rotate mesh toward movement
+        if (movementDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
+            mesh.transform.rotation = Quaternion.Slerp(
+                mesh.transform.rotation,
+                targetRotation,
+                Time.deltaTime * 10f
+            );
+        }
+    }
+
+    void CameraFollow()
+    {
+        cam.transform.position = transform.position + new Vector3(0, 5, -10);
+        cam.transform.LookAt(transform);
+    }
+
+    [Command]
+    void CmdSendVelocity(Vector3 vel)
+    {
+        syncedVelocity = vel;
+    }
 }
-

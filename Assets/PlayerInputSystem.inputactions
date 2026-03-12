@@ -7,7 +7,7 @@
             "id": "90d47ce3-b031-41c4-a067-86c852e1d839",
             "actions": [
                 {
-                    "name": "Momvent",
+                    "name": "Move",
                     "type": "PassThrough",
                     "id": "adc55c7e-2be7-4a59-a47e-e5d31bc76981",
                     "expectedControlType": "Vector3",
@@ -24,7 +24,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Momvent",
+                    "action": "Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -35,7 +35,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Momvent",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -46,7 +46,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Momvent",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -57,7 +57,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Momvent",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -68,7 +68,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Momvent",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
