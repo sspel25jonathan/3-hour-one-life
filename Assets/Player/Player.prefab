@@ -946,13 +946,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.4
   mesh: {fileID: 2713640906791396421}
   cam: {fileID: 6563575423141950252}
-  m_moveAction: {fileID: -4995044945139944911, guid: e27c7622fa917b049bb730be28a55fa3, type: 3}
-  m_smoothTime: 0.1
   speed: 5
-  jumpForce: 5
 --- !u!54 &6523786073274149012
 Rigidbody:
   m_ObjectHideFlags: 0

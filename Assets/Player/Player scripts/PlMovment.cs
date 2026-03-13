@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInput))]
@@ -15,12 +16,11 @@ public class PlMovement : NetworkBehaviour
 
     [Header("Camera")]
     public GameObject cam;
-
-    private Vector2 movementInput;
+    
+    private Vector3 movementInput;
     public float speed = 5f;
 
-    [SyncVar] 
-    private Vector3 syncedVelocity;
+
 
     public Vector3 movementDirection { get; private set; }
 
@@ -28,19 +28,18 @@ public class PlMovement : NetworkBehaviour
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
-
         cam.SetActive(true);
-
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = false;
-        
     }
 
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
-        rb = GetComponent<Rigidbody>();
+        if (!isLocalPlayer)
+        {
+            cam.SetActive(false);
+        }
     }
 
     void Update()
@@ -48,28 +47,20 @@ public class PlMovement : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         CameraFollow();
+        UpdateMeshRotation();
     }
 
     void FixedUpdate()
     {
-        if (isLocalPlayer)
-        {
-            ReadInput();
-            PlayerMovement();
+        if (!isLocalPlayer) return;
 
-            // Sync velocity to server
-            CmdSendVelocity(rb.linearVelocity);
-        }
-        else
-        {
-            // Remote players use synced velocity
-            rb.linearVelocity = syncedVelocity;
-        }
+        ReadInput();
+        PlayerMovement();
     }
 
     void ReadInput()
     {
-        movementInput = moveAction.ReadValue<Vector2>();
+        movementInput = moveAction.ReadValue<Vector3>();
     }
 
     void PlayerMovement()
@@ -95,6 +86,17 @@ public class PlMovement : NetworkBehaviour
             movementDirection.z
         );
 
+    }
+
+    void CameraFollow()
+    {
+        Vector3 targetPosition = transform.position + new Vector3(0, 5, -10);
+        cam.transform.position = Vector3.Lerp(cam.transform.position, targetPosition, Time.deltaTime * 5f);
+        cam.transform.LookAt(transform);
+    }
+
+    void UpdateMeshRotation()
+    {
         // Rotate mesh toward movement
         if (movementDirection != Vector3.zero)
         {
@@ -105,17 +107,5 @@ public class PlMovement : NetworkBehaviour
                 Time.deltaTime * 10f
             );
         }
-    }
-
-    void CameraFollow()
-    {
-        cam.transform.position = transform.position + new Vector3(0, 5, -10);
-        cam.transform.LookAt(transform);
-    }
-
-    [Command]
-    void CmdSendVelocity(Vector3 vel)
-    {
-        syncedVelocity = vel;
     }
 }
