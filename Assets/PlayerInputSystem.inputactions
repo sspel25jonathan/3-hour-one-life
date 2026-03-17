@@ -73,6 +73,54 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "MouseAndCamera",
+            "id": "1d7b5521-1d96-4ac1-9f55-615216759161",
+            "actions": [
+                {
+                    "name": "LockMouse",
+                    "type": "Button",
+                    "id": "55c5b054-0d27-4b0d-9d06-85768fba7a4f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CameraTurn",
+                    "type": "PassThrough",
+                    "id": "35100112-3917-4572-ba93-ef06019918e1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ec9c500f-36c2-4344-9fc0-b6da3bdbef1f",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "LockMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10736dd1-ab2a-4079-a335-bb46f4555a65",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraTurn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Mirror.Examples.Basic;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInput))]
@@ -16,7 +17,7 @@ public class PlMovement : NetworkBehaviour
 
     [Header("Camera")]
     public GameObject cam;
-    
+
     private Vector3 movementInput;
     public float speed = 5f;
 
@@ -30,15 +31,28 @@ public class PlMovement : NetworkBehaviour
         base.OnStartAuthority();
         cam.SetActive(true);
         rb = GetComponent<Rigidbody>();
+        playerInput.enabled = true;
     }
 
     void Awake()
     {
+
         playerInput = GetComponent<PlayerInput>();
+        playerInput.enabled = false;
         moveAction = playerInput.actions["Move"];
+
         if (!isLocalPlayer)
         {
             cam.SetActive(false);
+            moveAction.Disable();
+        }
+    }
+    void Start()
+    {
+        if (!isLocalPlayer)
+        {
+            cam.SetActive(false);
+
         }
     }
 
@@ -48,6 +62,8 @@ public class PlMovement : NetworkBehaviour
 
         CameraFollow();
         UpdateMeshRotation();
+        Vector3 movmentInput = playerInput.actions["Move"].ReadValue<Vector3>();
+
     }
 
     void FixedUpdate()

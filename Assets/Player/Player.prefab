@@ -2065,6 +2065,7 @@ GameObject:
   - component: {fileID: 8803432480586225598}
   - component: {fileID: 8806126276163263087}
   - component: {fileID: 2097361237395017618}
+  - component: {fileID: 832945256442862977}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -2265,6 +2266,24 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
+--- !u!114 &832945256442862977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6563575423141950252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a87ca9d18564c54889ca2112ae5d8b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  playerInput: {fileID: 8764796368473771184}
+  playerCamera: {fileID: 5187520762234611123}
+  lockMouseToCenter: 1
 --- !u!1 &6590561463829426521
 GameObject:
   m_ObjectHideFlags: 0
