@@ -1,8 +1,6 @@
 using UnityEngine;
 using Mirror;
 using UnityEngine.InputSystem;
-using System.Collections;
-using Mirror.Examples.Basic;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInput))]
@@ -117,8 +115,8 @@ public class PlMovement : NetworkBehaviour
         if (movementDirection != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
-            mesh.transform.rotation = Quaternion.Slerp(
-                mesh.transform.rotation,
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
                 targetRotation,
                 Time.deltaTime * 10f
             );
