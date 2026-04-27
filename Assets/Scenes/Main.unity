@@ -656,6 +656,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureRender: {fileID: 476775656}
+  meshFilter: {fileID: 476775657}
+  meshRenderer: {fileID: 476775656}
 --- !u!114 &944222096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,14 +671,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawMode: 1
-  mapWidth: 100
-  mapHeight: 100
+  editorPreviewLOD: 0
   noiseScale: 22
   octaves: 4
   persistance: 0.177
   lacunarity: 1
   seed: 2
   offset: {x: 0, y: 0}
+  meshHeightMultiplier: 0
+  meshHeightCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   autoUpdate: 1
   regions:
   - name: water
@@ -1146,6 +1154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureRender: {fileID: 2027136441}
+  meshFilter: {fileID: 0}
+  meshRenderer: {fileID: 0}
 --- !u!114 &2027136440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1159,14 +1169,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawMode: 0
-  mapWidth: 1
-  mapHeight: 1
+  editorPreviewLOD: 0
   noiseScale: 0
   octaves: 0
   persistance: 0
   lacunarity: 1
   seed: 0
   offset: {x: 0, y: 0}
+  meshHeightMultiplier: 0
+  meshHeightCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   autoUpdate: 0
   regions: []
 --- !u!23 &2027136441
